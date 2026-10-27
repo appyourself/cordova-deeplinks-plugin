@@ -1,6 +1,6 @@
 {
   "name": "com.cordova.deeplinks.plugin",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Cordova plugin to inject custom intent-filters into the AndroidManifest.xml for deep linking and other use cases.",
   "types": "./types/index.d.ts",
   "cordova": {

@@ -3,24 +3,8 @@
 
 @implementation AppDelegate (CustomDeeplinksPlugin)
 
-// cordova-ios 7+ uses the Scene-based app lifecycle by default. In that mode, iOS calls
-// -scene:continueUserActivity: on CDVSceneDelegate, NOT -application:continueUserActivity:
-// on AppDelegate below - so that method is never invoked and Universal Links are silently
-// dropped. CDVSceneDelegate instead posts CDVPluginContinueUserActivityNotification, so we
-// listen for that too. +load runs for every category unconditionally (unlike normal methods,
-// which categories can silently shadow), making it the safe place to register this.
-+ (void)load {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                              selector:@selector(cdv_customDeeplinks_handleContinueUserActivityNotification:)
-                                                  name:CDVPluginContinueUserActivityNotification
-                                                object:nil];
-}
-
-+ (void)cdv_customDeeplinks_handleContinueUserActivityNotification:(NSNotification *)notification {
-    NSUserActivity *userActivity = notification.object;
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate cdv_customDeeplinks_handleUniversalLink:userActivity restorationHandler:nil];
-}
+// Under the Scene-based app lifecycle (cordova-ios 7+) Universal Links are delivered to
+// CDVSceneDelegate, not to this AppDelegate - see CustomDeeplinksPlugin.m for that path.
 
 - (void)notifyAppsFlyerWithUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
     Class appsFlyerClass = NSClassFromString(@"AppsFlyerLib");
